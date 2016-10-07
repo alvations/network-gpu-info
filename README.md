@@ -19,6 +19,8 @@ First setup SSH keys to all computers that you want GPU info about:
 
     ./network-gpu-info [[user@]remote1 [[user@]remote2 [...]]]
     ./network-gpu-info hosts.txt
+    while true; do ./network-gpu-info hosts.txt; sleep 1; clear; done  # Rpeats command every 5 seconds.
+    
 
 If your username is the same between your source and your target computers, you
 don't need to prepend this to your remote host's address.  This info is passed
