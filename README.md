@@ -3,12 +3,18 @@
 Display GPU utilization for all hosts in your network.
 
 
+## Example
+![Screenshot](img/screenshot.png?raw=true)
+
+
 ## Prerequisites
-First setup SSH keys to all computers that you want GPU info about:
+First setup SSH keys to all computers that you want GPU info about.  This is a good idea in general.
 
 1. Once, from source computer:
 
         ssh-keygen -b 8192 -t rsa
+        
+   Use an empty passphrase.
 
 2. For every remote computer, from your source computer:
 
@@ -17,10 +23,8 @@ First setup SSH keys to all computers that you want GPU info about:
 
 ## Usage
 
-    ./network-gpu-info [[user@]remote1 [[user@]remote2 [...]]]
-    ./network-gpu-info hosts.txt
-    while true; do ./network-gpu-info hosts.txt; sleep 1; clear; done  # Rpeats command every 5 seconds.
-    
+    ./network-gpu-info [options] [[user@]remote1 [[user@]remote2 [...]]]
+    ./network-gpu-info [options] hosts.txt
 
 If your username is the same between your source and your target computers, you
 don't need to prepend this to your remote host's address.  This info is passed
@@ -28,18 +32,30 @@ directly to the `ssh` command, so if it's valid when you use `ssh`, it will be
 valid here.
 
 The command-line argument can alternatively be a regular text file, consisting
-of one entry per line.  For example:
+of one entry per line.  For example, a `hosts.txt` file could look like:
 
     123.456.789.012
     # user@remote1
     remote2
+    localhost
     another@10.0.0.5
 
-A line can be commented-out by prepending it with `#`.
+A line can be commented-out by prepending it with `#`.  You can specify the current,
+local machine using the entry `localhost`.
+
+You can loop continuously using the **`--loop`** command-line argument.  The default
+is to refresh every 5 seconds.  You can change this by adding an integer: `--loop 10` .
+
+There is a **`--timeout`** option to change the default connection timeout (2 seconds).
 
 
-## Example
-![Screenshot](img/screenshot.png?raw=true)
+## Hostname Autocompletion
+You can enable hostname autocompletion for this script, so that it suggests hostnames to
+connect to.  Just add something like the following to your `~/.bashrc` :
+
+    complete -F _ssh -f -o plusdirs ./network-gpu-info
+
+Don't forget to reload it: `source ~/.bashrc` .
 
 
 ## Todo
